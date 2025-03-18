@@ -2,26 +2,23 @@
 #include <vector>
 #include <string>
 #include <fstream>
-#include <limits> // For numeric_limits
-#include <algorithm> // For std::remove_if
+#include <limits>
+#include <algorithm>
 
 using namespace std;
 
-// Structure for Book
 struct Book {
     int id;
     string title;
     string author;
 };
 
-// Structure for Borrower
 struct Borrower {
     int id;
     string name;
     string contact;
 };
 
-// Structure for Transaction
 struct Transaction {
     int borrowerID;
     int bookID;
@@ -29,8 +26,6 @@ struct Transaction {
     string returnDate;
     bool returned;
 };
-
-// Function to load books from file
 void loadBooksFromFile(vector<Book>& books) {
     ifstream inFile("books.txt");
     if (!inFile) {
@@ -49,7 +44,6 @@ void loadBooksFromFile(vector<Book>& books) {
     inFile.close();
 }
 
-// Function to save books to file
 void saveBooksToFile(const vector<Book>& books) {
     ofstream outFile("books.txt");
     if (!outFile) {
@@ -65,7 +59,6 @@ void saveBooksToFile(const vector<Book>& books) {
     outFile.close();
 }
 
-// Function to display all books
 void displayBooks(const vector<Book>& books) {
     if (books.empty()) {
         cout << "No books in the library.\n";
@@ -78,13 +71,12 @@ void displayBooks(const vector<Book>& books) {
     }
 }
 
-// Function to add a book
 void addBook(vector<Book>& books) {
     Book newBook;
     cout << "Enter book ID: ";
     while (!(cin >> newBook.id)) {
-        cin.clear(); // Clear the error flag
-        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore invalid input
+        cin.clear(); 
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         cout << "Invalid input. Please enter a valid numeric book ID: ";
     }
     cin.ignore();
@@ -97,7 +89,6 @@ void addBook(vector<Book>& books) {
     cout << "Book added successfully!\n";
 }
 
-// Function to delete a book
 void deleteBook(vector<Book>& books, int bookID) {
     auto it = remove_if(books.begin(), books.end(), [bookID](const Book& b) { return b.id == bookID; });
     if (it != books.end()) {
@@ -109,7 +100,6 @@ void deleteBook(vector<Book>& books, int bookID) {
     }
 }
 
-// Function to add a borrower
 void addBorrower(vector<Borrower>& borrowers) {
     Borrower newBorrower;
     cout << "Enter borrower ID: ";
@@ -127,7 +117,6 @@ void addBorrower(vector<Borrower>& borrowers) {
     cout << "Borrower added successfully!\n";
 }
 
-// Function to display all borrowers
 void displayBorrowers(const vector<Borrower>& borrowers) {
     if (borrowers.empty()) {
         cout << "No borrowers in the system.\n";
@@ -140,24 +129,21 @@ void displayBorrowers(const vector<Borrower>& borrowers) {
     }
 }
 
-// Function to handle numeric input safely
 int getValidatedChoice() {
     int choice;
     while (!(cin >> choice)) {
-        cin.clear(); // Clear the error flag
-        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Ignore invalid input
+        cin.clear(); 
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
         cout << "Invalid input. Please enter a valid option: ";
     }
     return choice;
 }
 
-// Main function
 int main() {
     vector<Book> books;
     vector<Borrower> borrowers;
     vector<Transaction> transactions;
 
-    // Load books from file at the start of the program
     loadBooksFromFile(books);
 
     cout << "Welcome to the Library Management System!\n";
